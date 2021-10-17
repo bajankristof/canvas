@@ -20,10 +20,10 @@ defmodule CanvasWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", CanvasWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", CanvasWeb do
+    pipe_through :api
+    resources "/documents", DocumentController
+  end
 
   # Enables LiveDashboard only for development
   #
