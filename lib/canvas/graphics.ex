@@ -4,9 +4,10 @@ defmodule Canvas.Graphics do
   """
 
   import Ecto.Query, warn: false
+  alias Ecto.Changeset
   alias Canvas.Repo
 
-  alias Canvas.Graphics.Document
+  alias Canvas.Graphics.{Document, DrawRectCommand}
 
   @doc """
   Returns the list of documents.
@@ -100,5 +101,17 @@ defmodule Canvas.Graphics do
   """
   def change_document(%Document{} = document, attrs \\ %{}) do
     Document.changeset(document, attrs)
+  end
+
+  def draw_rect(%Document{} = document, params) do
+    with {:ok, draw_rect_command} <-
+           %DrawRectCommand{}
+           |> DrawRectCommand.changeset(params)
+           |> DrawRectCommand.validate_inside(document)
+           |> Changeset.apply_action(:create) do
+      {:ok, draw_rect_command}
+    else
+      {:error, changeset} -> {:error, changeset}
+    end
   end
 end

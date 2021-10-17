@@ -23,6 +23,8 @@ defmodule CanvasWeb.Router do
   scope "/api", CanvasWeb do
     pipe_through :api
     resources "/documents", DocumentController
+    post "/graphics/:document_id/draw-rect", GraphicsController, :draw_rect
+    post "/graphics/:document_id/flood-fill", GraphicsController, :flood_fill
   end
 
   # Enables LiveDashboard only for development

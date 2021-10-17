@@ -18,4 +18,13 @@ defmodule Canvas.Graphics.Document do
     |> cast(attrs, [:width, :height])
     |> validate_required([:width, :height])
   end
+
+  def render(document) do
+    0..(document.width * document.height)
+    |> Enum.reduce("", fn index, acc ->
+      eol? = document.width <= index && rem(index - 1, document.width) == 0
+      sep = if eol?, do: "\n", else: ""
+      acc <> sep <> Enum.at(document.content, index, " ")
+    end)
+  end
 end
