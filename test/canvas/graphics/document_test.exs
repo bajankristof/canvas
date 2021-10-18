@@ -1,5 +1,6 @@
 defmodule Canvas.Graphics.DocumentTest do
   use ExUnit.Case
+  doctest Canvas.Graphics.Document
 
   alias Canvas.Graphics.Document
 
@@ -13,14 +14,14 @@ defmodule Canvas.Graphics.DocumentTest do
           XOOOOOOOOOOOOX
           XXXXXXXXXXXXXX)
 
-  test "render/1 returns correct value" do
+  test "to_string/1 returns correct value" do
     content = explode(@test_binary)
     document = %Document{width: 24, height: 9, content: content}
-    assert Document.render(document) == @test_binary
+    assert Document.to_string(document) == @test_binary
   end
 
   defp explode(binary) do
     String.replace(binary, ~r/\n/, "")
-    |> String.split("")
+    |> String.split("", trim: true)
   end
 end

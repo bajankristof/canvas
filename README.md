@@ -1,5 +1,12 @@
 # Canvas
 
+## Time spent
+
+  * 3.5 hours on 2021-10-17 between 16:00 - 19:30
+  * X hours on 2021-10-18 between 10:00 - Y
+
+## Getting started
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

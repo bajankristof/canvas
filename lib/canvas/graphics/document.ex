@@ -19,12 +19,28 @@ defmodule Canvas.Graphics.Document do
     |> validate_required([:width, :height])
   end
 
-  def render(document) do
-    0..(document.width * document.height)
-    |> Enum.reduce("", fn index, acc ->
-      eol? = document.width <= index && rem(index - 1, document.width) == 0
-      sep = if eol?, do: "\n", else: ""
-      acc <> sep <> Enum.at(document.content, index, " ")
+  @doc """
+  Renders the document into its string representation.
+
+  ### Examples
+
+      iex> alias Canvas.Graphics.Document
+      Canvas.Graphics.Document
+      iex> Document.to_string(%Document{width: 3, height: 3, content: ["X", "X", "X", "X", "@", "X", "X", "X", "X"]})
+      ~S(XXX
+      X@X
+      XXX)
+
+  """
+  def to_string(document) do
+    render_range = 0..(document.width * document.height - 1)
+
+    Enum.reduce(render_range, "", fn index, acc ->
+      eor? = rem(index + 1, document.width) === 0
+      sod? = index === render_range.first
+      eod? = index === render_range.last
+      sep = if eor? && (!sod? && !eod?), do: "\n", else: ""
+      acc <> Enum.at(document.content, index) <> sep
     end)
   end
 end
