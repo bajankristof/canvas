@@ -60,4 +60,41 @@ defmodule Canvas.GraphicsTest do
       assert %Ecto.Changeset{} = Graphics.change_document(document)
     end
   end
+
+  describe "commands" do
+    alias Canvas.Graphics.Document
+
+    @valid_draw_rect_params %{x: 0, y: 0, width: 2, height: 1, outline: "O"}
+    @valid_flood_fill_params %{x: 0, y: 0, fill: "O"}
+
+    test "draw_rect/2 with valid params updates the document" do
+      assert {:ok, document} = Graphics.create_document(%{width: 3, height: 2})
+      assert {:ok, %Document{} = document} = Graphics.draw_rect(document, @valid_draw_rect_params)
+      assert document.content == ["O", "O", " ", " ", " ", " "]
+    end
+
+    test "draw_rect/2 with invalid params returns error changeset" do
+      assert {:ok, document} = Graphics.create_document(%{width: 16, height: 8})
+      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{})
+      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1})
+      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1, outline: "OO"})
+      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1, fill: "OO"})
+      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: -1, height: 1, fill: "O"})
+      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: -1, height: -1, fill: "O"})
+    end
+
+    test "flood_fill/2 with valid params updates document" do
+      assert {:ok, document} = Graphics.create_document(%{width: 3, height: 2})
+      assert {:ok, %Document{} = document} = Graphics.flood_fill(document, @valid_flood_fill_params)
+      assert document.content == ["O", "O", "O", "O", "O", "O"]
+    end
+
+    test "flood_fill/2 with invalid params returns error changeset" do
+      assert {:ok, document} = Graphics.create_document(%{width: 16, height: 8})
+      assert {:error, %Ecto.Changeset{}} = Graphics.flood_fill(document, %{})
+      assert {:error, %Ecto.Changeset{}} = Graphics.flood_fill(document, %{x: 1, y: 2, fill: "OO"})
+      assert {:error, %Ecto.Changeset{}} = Graphics.flood_fill(document, %{x: 100, y: 2, fill: "O"})
+      assert {:error, %Ecto.Changeset{}} = Graphics.flood_fill(document, %{x: 1, y: 200, fill: "O"})
+    end
+  end
 end

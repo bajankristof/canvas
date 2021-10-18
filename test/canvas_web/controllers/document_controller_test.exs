@@ -3,8 +3,6 @@ defmodule CanvasWeb.DocumentControllerTest do
 
   import Canvas.GraphicsFixtures
 
-  alias Canvas.Graphics.Document
-
   @create_attrs %{
     height: 42,
     width: 42

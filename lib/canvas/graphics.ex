@@ -7,7 +7,7 @@ defmodule Canvas.Graphics do
   alias Ecto.Changeset
   alias Canvas.Repo
 
-  alias Canvas.Graphics.{Document, DrawRectCommand}
+  alias Canvas.Graphics.{Document, DrawRectCommand, FloodFillCommand}
 
   @doc """
   Returns the list of documents.
@@ -103,15 +103,54 @@ defmodule Canvas.Graphics do
     Document.changeset(document, attrs)
   end
 
+  @doc """
+  Draws a rectangle in a document.
+
+  ### Examples
+
+      iex> draw_rect(document, params)
+      {:ok, %Document{}}
+
+      iex> draw_rect(document, params)
+      {:error, %Ecto.Changeset{}}
+
+  """
   def draw_rect(%Document{} = document, params) do
     with {:ok, command} <-
            %DrawRectCommand{}
            |> DrawRectCommand.changeset(params)
            |> Changeset.apply_action(:create),
          %{content: content} <-
-           document
-           |> Document.draw_canvas()
+           Document.draw_canvas(document)
            |> Document.draw_rect(command) do
+      Document.content_changeset(document, content)
+      |> Repo.update()
+    else
+      {:error, changeset} -> {:error, changeset}
+    end
+  end
+
+  @doc """
+  Flood fills an area in a document.
+
+  ### Examples
+
+      iex> flood_fill(document, params)
+      {:ok, %Document{}}
+
+      iex> flood_fill(document, params)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def flood_fill(%Document{} = document, params) do
+    with {:ok, command} <-
+           %FloodFillCommand{}
+           |> FloodFillCommand.changeset(params)
+           |> FloodFillCommand.validate_inside(document)
+           |> Changeset.apply_action(:create),
+         %{content: content} <-
+           Document.draw_canvas(document)
+           |> Document.flood_fill(command) do
       Document.content_changeset(document, content)
       |> Repo.update()
     else
