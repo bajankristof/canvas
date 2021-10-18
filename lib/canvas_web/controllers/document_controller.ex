@@ -25,14 +25,6 @@ defmodule CanvasWeb.DocumentController do
     render(conn, "show.json", document: document)
   end
 
-  def update(conn, %{"id" => id, "document" => document_params}) do
-    document = Graphics.get_document!(id)
-
-    with {:ok, %Document{} = document} <- Graphics.update_document(document, document_params) do
-      render(conn, "show.json", document: document)
-    end
-  end
-
   def delete(conn, %{"id" => id}) do
     document = Graphics.get_document!(id)
 

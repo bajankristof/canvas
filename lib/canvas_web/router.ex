@@ -22,7 +22,7 @@ defmodule CanvasWeb.Router do
 
   scope "/api", CanvasWeb do
     pipe_through :api
-    resources "/documents", DocumentController
+    resources "/documents", DocumentController, except: [:update]
     get "/graphics/:document_id", GraphicsController, :show
     post "/graphics/:document_id/draw-rect", GraphicsController, :draw_rect
     post "/graphics/:document_id/flood-fill", GraphicsController, :flood_fill
