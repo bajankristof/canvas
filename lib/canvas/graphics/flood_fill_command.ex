@@ -1,7 +1,6 @@
 defmodule Canvas.Graphics.FloodFillCommand do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Canvas.Graphics.FloodFillCommand
 
   embedded_schema do
     field :fill, :string
@@ -9,8 +8,10 @@ defmodule Canvas.Graphics.FloodFillCommand do
     field :y, :integer
   end
 
+  @type t() :: %__MODULE__{}
+
   @doc false
-  def changeset(%FloodFillCommand{} = fill_operation, attrs) do
+  def changeset(%__MODULE__{} = fill_operation, attrs) do
     fill_operation
     |> cast(attrs, [:x, :y, :fill])
     |> validate_required([:x, :y, :fill])

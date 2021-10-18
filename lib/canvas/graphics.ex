@@ -104,12 +104,16 @@ defmodule Canvas.Graphics do
   end
 
   def draw_rect(%Document{} = document, params) do
-    with {:ok, draw_rect_command} <-
+    with {:ok, command} <-
            %DrawRectCommand{}
            |> DrawRectCommand.changeset(params)
-           |> DrawRectCommand.validate_inside(document)
-           |> Changeset.apply_action(:create) do
-      {:ok, draw_rect_command}
+           |> Changeset.apply_action(:create),
+         %{content: content} <-
+           document
+           |> Document.draw_canvas()
+           |> Document.draw_rect(command) do
+      Document.content_changeset(document, content)
+      |> Repo.update()
     else
       {:error, changeset} -> {:error, changeset}
     end
