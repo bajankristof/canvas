@@ -19,6 +19,7 @@ defmodule Canvas.Graphics.FloodFillCommand do
     |> validate_length(:fill, min: 1, max: 1)
   end
 
+  @doc false
   def validate_inside(changeset, %Document{} = document) do
     [{:x, document.width}, {:y, document.height}]
     |> Enum.reduce(changeset, fn {attr, max}, changeset ->

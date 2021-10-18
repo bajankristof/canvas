@@ -76,25 +76,44 @@ defmodule Canvas.GraphicsTest do
     test "draw_rect/2 with invalid params returns error changeset" do
       assert {:ok, document} = Graphics.create_document(%{width: 16, height: 8})
       assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{})
-      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1})
-      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1, outline: "OO"})
-      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1, fill: "OO"})
-      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: -1, height: 1, fill: "O"})
-      assert {:error, %Ecto.Changeset{}} = Graphics.draw_rect(document, %{x: 1, y: 2, width: -1, height: -1, fill: "O"})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1, outline: "OO"})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Graphics.draw_rect(document, %{x: 1, y: 2, width: 1, height: 1, fill: "OO"})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Graphics.draw_rect(document, %{x: 1, y: 2, width: -1, height: 1, fill: "O"})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Graphics.draw_rect(document, %{x: 1, y: 2, width: -1, height: -1, fill: "O"})
     end
 
     test "flood_fill/2 with valid params updates document" do
       assert {:ok, document} = Graphics.create_document(%{width: 3, height: 2})
-      assert {:ok, %Document{} = document} = Graphics.flood_fill(document, @valid_flood_fill_params)
+
+      assert {:ok, %Document{} = document} =
+               Graphics.flood_fill(document, @valid_flood_fill_params)
+
       assert document.content == ["O", "O", "O", "O", "O", "O"]
     end
 
     test "flood_fill/2 with invalid params returns error changeset" do
       assert {:ok, document} = Graphics.create_document(%{width: 16, height: 8})
       assert {:error, %Ecto.Changeset{}} = Graphics.flood_fill(document, %{})
-      assert {:error, %Ecto.Changeset{}} = Graphics.flood_fill(document, %{x: 1, y: 2, fill: "OO"})
-      assert {:error, %Ecto.Changeset{}} = Graphics.flood_fill(document, %{x: 100, y: 2, fill: "O"})
-      assert {:error, %Ecto.Changeset{}} = Graphics.flood_fill(document, %{x: 1, y: 200, fill: "O"})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Graphics.flood_fill(document, %{x: 1, y: 2, fill: "OO"})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Graphics.flood_fill(document, %{x: 100, y: 2, fill: "O"})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Graphics.flood_fill(document, %{x: 1, y: 200, fill: "O"})
     end
   end
 end

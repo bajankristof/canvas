@@ -3,7 +3,8 @@
 ## Time spent
 
   * 3.5 hours on 2021-10-17 between 16:00 - 19:30
-  * X hours on 2021-10-18 between 10:00 - Y
+  * 4 hours on 2021-10-18 between 10:00 - 14:00
+  * X hours on 2021-10-18 between 15:00 - Y
 
 ## Getting started
 
