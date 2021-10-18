@@ -47,32 +47,6 @@ defmodule CanvasWeb.DocumentControllerTest do
     end
   end
 
-  describe "update document" do
-    setup [:create_document]
-
-    test "renders document when data is valid", %{
-      conn: conn,
-      document: %Document{id: id} = document
-    } do
-      conn = put(conn, Routes.document_path(conn, :update, document), document: @update_attrs)
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
-      conn = get(conn, Routes.document_path(conn, :show, id))
-
-      assert %{
-               "id" => ^id,
-               "content" => nil,
-               "height" => 43,
-               "width" => 43
-             } = json_response(conn, 200)["data"]
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, document: document} do
-      conn = put(conn, Routes.document_path(conn, :update, document), document: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
   describe "delete document" do
     setup [:create_document]
 
