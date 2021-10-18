@@ -1,5 +1,6 @@
 defmodule Canvas.Graphics.DrawRectCommand do
   use Ecto.Schema
+  import Kernel, except: [apply: 2]
   import Ecto.Changeset
   import Canvas.Helpers
 
@@ -20,13 +21,13 @@ defmodule Canvas.Graphics.DrawRectCommand do
   @type t() :: %__MODULE__{}
 
   @doc false
-  def draw(%__MODULE__{outline: nil} = command, document),
-    do: draw(%{command | outline: command.fill}, document)
+  def apply(%__MODULE__{outline: nil} = command, document),
+    do: apply(%{command | outline: command.fill}, document)
 
-  def draw(%__MODULE__{} = command, %Document{} = document) do
+  def apply(%__MODULE__{} = command, %Document{} = document) do
     content =
       rect_reduce(command, document.content, fn {_, x, y}, acc ->
-        pos = x + command.x + (y + command.y) * document.width
+        pos = translate_pos(document, x + command.x, y + command.y)
         type = if rect_edge?(command, x, y), do: :outline, else: :fill
         char = Map.get(command, type)
 

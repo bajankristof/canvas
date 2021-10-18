@@ -88,7 +88,7 @@ defmodule Canvas.Graphics.DocumentTest do
     command = %FloodFillCommand{x: 8, y: 1, fill: "."}
 
     document =
-      %Document{width: 2, height: 2, content: explode(@test_binary)}
+      %Document{width: 24, height: 10, content: explode(@test_binary)}
       |> Document.flood_fill(command)
 
     assert Document.to_string(document) == String.replace(@test_binary, " ", ".")

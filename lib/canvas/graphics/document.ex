@@ -3,7 +3,7 @@ defmodule Canvas.Graphics.Document do
   import Ecto.Changeset
   import Canvas.Helpers
 
-  alias Canvas.Graphics.DrawRectCommand
+  alias Canvas.Graphics.{DrawRectCommand, FloodFillCommand}
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -78,5 +78,12 @@ defmodule Canvas.Graphics.Document do
   """
   @spec draw_rect(document :: t(), command :: DrawRectCommand.t()) :: t()
   def draw_rect(%__MODULE__{} = document, %DrawRectCommand{} = command),
-    do: DrawRectCommand.draw(command, document)
+    do: DrawRectCommand.apply(command, document)
+
+  @doc """
+  Returns `document` with its content flood filled specified by `command`.
+  """
+  @spec flood_fill(document :: t(), command :: FloodFillCommand.t()) :: t()
+  def flood_fill(%__MODULE__{} = document, %FloodFillCommand{} = command),
+    do: FloodFillCommand.apply(command, document)
 end

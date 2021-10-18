@@ -17,4 +17,7 @@ defmodule Canvas.Helpers do
   def rect_edge?(%{width: width, height: height}, x, y)
       when x >= 0 and x < width and y >= 0 and y < height,
       do: width === 1 || height === 1 || rem(y, height - 1) === 0 || rem(x, width - 1) === 0
+
+  def translate_pos(%{width: width}, x, y),
+    do: x + y * width
 end

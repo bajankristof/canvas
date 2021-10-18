@@ -26,6 +26,13 @@ defmodule CanvasWeb.GraphicsController do
 
   def flood_fill(conn, %{"document_id" => document_id}) do
     document = Graphics.get_document!(document_id)
-    render(conn, "show.json", document: document)
+
+    case Graphics.flood_fill(document, conn.body_params) do
+      {:ok, document} ->
+        render(conn, "show.json", document: document)
+
+      {:error, changeset} ->
+        FallbackController.call(conn, {:error, changeset})
+    end
   end
 end
