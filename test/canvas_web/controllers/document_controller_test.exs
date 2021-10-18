@@ -9,10 +9,6 @@ defmodule CanvasWeb.DocumentControllerTest do
     height: 42,
     width: 42
   }
-  @update_attrs %{
-    height: 43,
-    width: 43
-  }
   @invalid_attrs %{height: nil, width: nil}
 
   setup %{conn: conn} do
