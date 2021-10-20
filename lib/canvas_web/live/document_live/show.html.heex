@@ -1,0 +1,42 @@
+<h1>Document <%= @document.id %></h1>
+
+<%= if @deleted do %>
+<p class="alert alert-danger">Document no longer available!</p>
+<% end %>
+
+<%= if @document.content do %>
+  <pre><%= Canvas.Graphics.Document.to_string(@document) %></pre>
+<% else %>
+  <%= if not @deleted do %>
+    <p class="alert alert-info">Draw some rectangles, fill some areas, an empty canvas is waiting for you ;)</p>
+  <% end %>
+<% end %>
+
+<details>
+  <summary style="cursor: pointer;">How to interact with the graphics API 💡</summary>
+  <div class="tip tip-post">
+    <span>🖌️&nbsp;&nbsp;Draw a rectangle</span>
+    <pre>POST /api/graphics/<%= @document.id %>/draw-rect
+{
+  "x": 3,
+  "y": 1,
+  "width": 10,
+  "height": 4,
+  "outline": "@",
+  "fill": null
+}
+</pre>
+  </div>
+  <div class="tip tip-post">
+    <span>🪣&nbsp;&nbsp;Flood fill an area</span>
+    <pre>POST /api/graphics/<%= @document.id %>/flood-fill
+{
+  "x": 0,
+  "y": 0,
+  "fill": "."
+}
+</pre>
+  </div>
+</details>
+
+<span><%= live_redirect "Back", to: Routes.document_index_path(@socket, :index) %></span>

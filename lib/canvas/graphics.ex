@@ -6,8 +6,8 @@ defmodule Canvas.Graphics do
   import Ecto.Query, warn: false
   alias Ecto.Changeset
   alias Canvas.Repo
-
   alias Canvas.Graphics.{Document, DrawRectCommand, FloodFillCommand}
+  alias Phoenix.PubSub
 
   @doc """
   Returns the list of documents.
@@ -54,6 +54,7 @@ defmodule Canvas.Graphics do
     %Document{}
     |> Document.changeset(attrs)
     |> Repo.insert()
+    |> broadcast("documents", :insert)
   end
 
   @doc """
@@ -72,6 +73,7 @@ defmodule Canvas.Graphics do
     document
     |> Document.changeset(attrs)
     |> Repo.update()
+    |> broadcast("documents", :update)
   end
 
   @doc """
@@ -88,6 +90,7 @@ defmodule Canvas.Graphics do
   """
   def delete_document(%Document{} = document) do
     Repo.delete(document)
+    |> broadcast("documents", :delete)
   end
 
   @doc """
@@ -125,6 +128,7 @@ defmodule Canvas.Graphics do
            |> Document.draw_rect(command) do
       Document.content_changeset(document, content)
       |> Repo.update()
+      |> broadcast("documents", :update)
     else
       {:error, changeset} -> {:error, changeset}
     end
@@ -153,8 +157,17 @@ defmodule Canvas.Graphics do
            |> Document.flood_fill(command) do
       Document.content_changeset(document, content)
       |> Repo.update()
+      |> broadcast("documents", :update)
     else
       {:error, changeset} -> {:error, changeset}
     end
   end
+
+  defp broadcast({:ok, entity}, topic, event) do
+    PubSub.broadcast(Canvas.PubSub, topic, {topic, event, entity})
+    {:ok, entity}
+  end
+
+  defp broadcast({:error, reason}, _, _),
+    do: {:error, reason}
 end

@@ -17,7 +17,8 @@ defmodule CanvasWeb.Router do
   scope "/", CanvasWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", DocumentLive.Index, :index
+    live "/:id", DocumentLive.Show, :show
   end
 
   scope "/api", CanvasWeb do

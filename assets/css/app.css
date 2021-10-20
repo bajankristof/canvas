@@ -1,6 +1,33 @@
 /* This file is for your main application CSS */
 @import "./phoenix.css";
 
+details {
+  margin-bottom: 20px;
+}
+
+.tip {
+  margin-top: 1em;
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid #f4f5f6;
+}
+
+.tip pre {
+  margin-bottom: 1em;
+}
+
+.tip-post pre {
+  border-color: #ffca3a;
+}
+
+.tip-get pre {
+  border-color: #8ac926;
+}
+
+.tip-delete pre {
+  border-color: #ff595e;
+}
+
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;

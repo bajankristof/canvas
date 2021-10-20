@@ -1,0 +1,49 @@
+<h1>Documents</h1>
+
+<%= if @documents !== [] do %>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="documents">
+      <%= for document <- @documents do %>
+        <tr id={"document-#{document.id}"}>
+          <td>
+            <span><%= live_redirect document.id, to: Routes.document_show_path(@socket, :show, document) %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="alert alert-info">Go ahead, create a new empty canvas and start drawing :)</p>
+<% end %>
+
+<details>
+  <summary style="cursor: pointer;">How to interact with the documents API 💡</summary>
+  <div class="tip tip-post">
+    <span>✏️&nbsp;&nbsp;Create a new document</span>
+    <pre>
+POST /api/documents
+{
+  "document": {
+    "width": 24,
+    "height": 8
+  }
+}</pre>
+  </div>
+  <div class="tip tip-get">
+    <span>📋&nbsp;&nbsp;List all documents</span>
+    <pre>GET /api/documents</pre>
+  </div>
+  <div class="tip tip-get">
+    <span>📋&nbsp;&nbsp;Query a document by ID</span>
+    <pre>GET /api/documents/:id</pre>
+  </div>
+  <div class="tip tip-delete">
+    <span>🗑️&nbsp;&nbsp;Delete a document by ID</span>
+    <pre>DELETE /api/documents/:id</pre>
+  </div>
+</details>
