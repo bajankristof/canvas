@@ -31,24 +31,24 @@ defmodule CanvasWeb.GraphicsControllerTest do
   describe "draw rectangle" do
     test "updates document when data is valid", %{conn: conn, document: document} do
       conn = post(conn, Routes.graphics_path(conn, :draw_rect, document.id), @draw_rect_command)
-      assert %{"content" => [_|_]} = json_response(conn, 200)["data"]
+      assert %{"content" => [_ | _]} = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, document: document} do
       conn = post(conn, Routes.graphics_path(conn, :draw_rect, document.id), %{})
-      assert %{"x" => [_|_], "y" => [_|_]} = json_response(conn, 422)["errors"]
+      assert %{"x" => [_ | _], "y" => [_ | _]} = json_response(conn, 422)["errors"]
     end
   end
 
   describe "flood fill" do
     test "updates document when data is valid", %{conn: conn, document: document} do
       conn = post(conn, Routes.graphics_path(conn, :flood_fill, document.id), @flood_fill_command)
-      assert %{"content" => [_|_]} = json_response(conn, 200)["data"]
+      assert %{"content" => [_ | _]} = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, document: document} do
       conn = post(conn, Routes.graphics_path(conn, :flood_fill, document.id), %{})
-      assert %{"x" => [_|_], "y" => [_|_]} = json_response(conn, 422)["errors"]
+      assert %{"x" => [_ | _], "y" => [_ | _]} = json_response(conn, 422)["errors"]
     end
   end
 end
