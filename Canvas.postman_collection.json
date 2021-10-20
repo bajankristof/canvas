@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "44e22fd6-af8d-4913-ac06-3d389aa69da6",
+		"name": "Canvas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/documents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"document_id\", pm.response.json().data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"document\": {\n        \"width\": 24,\n        \"height\": 8\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/documents",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"documents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/documents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/documents",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"documents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/documents/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/documents/{{document_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"documents",
+						"{{document_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/documents/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.unset(\"document_id\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/documents/{{document_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"documents",
+						"{{document_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/graphics/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/graphics/{{document_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"graphics",
+						"{{document_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/graphics/:id/draw-rect",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"x\": 3,\n    \"y\": 1,\n    \"width\": 10,\n    \"height\": 4,\n    \"outline\": \"@\",\n    \"fill\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/graphics/{{document_id}}/draw-rect",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"graphics",
+						"{{document_id}}",
+						"draw-rect"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/graphics/:id/flood-fill",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fill\": \".\",\n    \"x\": 0,\n    \"y\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/graphics/{{document_id}}/flood-fill",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"graphics",
+						"{{document_id}}",
+						"flood-fill"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:4000"
+		}
+	]
+}
