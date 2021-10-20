@@ -45,6 +45,9 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser fo
 
 If you started the web app, visit [`localhost:4000`](http://localhost:4000) from your browser for the API instructions (on each relevant page, there will be a `How to interact with the ... API` section that you can check out).
 
+You can also import the [`Postman collection`](https://github.com/bajankristof/canvas/blob/main/Canvas.postman_collection.json) from the repository if you are using Postman.
+Once imported, you should create a Postman environment for the project as some request scripts modify the active environment to set and unset the active document ID.
+
 #### Creating documents
 
 You can create a document by sending a `POST` request to `/api/documents` with the following body structure:
