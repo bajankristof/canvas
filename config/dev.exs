@@ -21,7 +21,7 @@ config :canvas, CanvasWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
-  debug_errors: false,
+  debug_errors: true,
   secret_key_base: "nzoe4zWxTa0mDWyPQRFkkCimbo9YDv5N1ot0Ah0mKPS2UvKF7u5wt/vjK/BqvoNq",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)

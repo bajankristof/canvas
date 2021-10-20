@@ -12,7 +12,7 @@ config :canvas,
 
 # Configures the endpoint
 config :canvas, CanvasWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: System.get_env("CANVAS_ENDPOINT", "localhost")],
   render_errors: [view: CanvasWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Canvas.PubSub,
   live_view: [signing_salt: "XMiYnn8J"]

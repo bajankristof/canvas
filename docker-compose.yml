@@ -1,11 +1,17 @@
 version: "3.8"
 services:
-    # app:
-    #     build: .
-    #     ports:
-    #         - 4000:4000
-    #     depends_on:
-    #         - postgres
+    app:
+        build: .
+        command: "bash -c 'mix ecto.setup && mix phx.server'"
+        environment:
+            MIX_ENV: prod
+            CANVAS_ENDPOINT: "localhost"
+            DATABASE_URL: postgres://postgres:postgres@postgres/canvas
+            SECRET_KEY_BASE: nzoe4zWxTa0mDWyPQRFkkCimbo9YDv5N1ot0Ah0mKPS2UvKF7u5wt/vjK/BqvoNq
+        ports:
+            - 4000:4000
+        depends_on:
+            - postgres
 
     postgres:
         image: postgres:14-alpine
@@ -14,9 +20,9 @@ services:
         ports:
             - 5432:5432
 
-    adminer:
-        image: adminer
-        ports:
-            - 8080:8080
-        depends_on:
-            - postgres
+    # adminer:
+    #     image: adminer
+    #     ports:
+    #         - 8080:8080
+    #     depends_on:
+    #         - postgres

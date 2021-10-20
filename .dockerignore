@@ -31,4 +31,10 @@ canvas-*.tar
 # In case you use Node.js/npm, you want to ignore these.
 npm-debug.log
 /assets/node_modules/
+
+# Unnecessary files and folders.
 .DS_Store
+Dockerfile
+docker-compose.yml
+.gitignore
+/README.md
