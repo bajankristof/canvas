@@ -37,7 +37,7 @@ defmodule CanvasWeb.DocumentControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.document_path(conn, :create), document: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
+      assert %{"width" => [_|_], "height" => [_|_]} = json_response(conn, 422)["errors"]
     end
   end
 

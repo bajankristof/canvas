@@ -4,21 +4,32 @@ defmodule Canvas.Graphics.DocumentTest do
 
   alias Canvas.Graphics.{Document, DrawRectCommand, FloodFillCommand}
 
-  @test_binary ~S(                        
+  @test_canvas ~S(                        
                         
    @@@@@                
    @XXX@  XXXXXXXXXXXXXX
    @@@@@  XOOOOOOOOOOOOX
           XOOOOOOOOOOOOX
-          XOOOOOOOOOOOOX
-          XOOOOOOOOOOOOX
-          XXXXXXXXXXXXXX
-                        )
+..........XOOOOOOOOOOOOX
+.        .XOOOOOOOOOOOOX
+.        .XXXXXXXXXXXXXX
+..........              )
+
+  @filled_test_canvas ~S(oooooooooooooooooooooooo
+oooooooooooooooooooooooo
+ooo@@@@@oooooooooooooooo
+ooo@XXX@ooXXXXXXXXXXXXXX
+ooo@@@@@ooXOOOOOOOOOOOOX
+ooooooooooXOOOOOOOOOOOOX
+..........XOOOOOOOOOOOOX
+.        .XOOOOOOOOOOOOX
+.        .XXXXXXXXXXXXXX
+..........              )
 
   test "to_string/1 returns correct value" do
-    content = explode(@test_binary)
+    content = explode(@test_canvas)
     document = %Document{width: 24, height: 10, content: content}
-    assert Document.to_string(document) == @test_binary
+    assert Document.to_string(document) == @test_canvas
   end
 
   test "draw_canvas/1 with content nil returns document with filled content" do
@@ -85,13 +96,13 @@ defmodule Canvas.Graphics.DocumentTest do
   end
 
   test "flood_fill/2 with a complex connected area fills area" do
-    command = %FloodFillCommand{x: 8, y: 1, fill: "."}
+    command = %FloodFillCommand{x: 8, y: 1, fill: "o"}
 
     document =
-      %Document{width: 24, height: 10, content: explode(@test_binary)}
+      %Document{width: 24, height: 10, content: explode(@test_canvas)}
       |> Document.flood_fill(command)
 
-    assert Document.to_string(document) == String.replace(@test_binary, " ", ".")
+    assert Document.to_string(document) == @filled_test_canvas
   end
 
   defp explode(binary) do
